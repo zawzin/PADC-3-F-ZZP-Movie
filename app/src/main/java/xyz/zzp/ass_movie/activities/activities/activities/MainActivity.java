@@ -20,8 +20,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.zzp.ass_movie.R;
 import xyz.zzp.ass_movie.activities.activities.adapters.MoviesAdapter;
+import xyz.zzp.ass_movie.activities.activities.delegates.MovieActionDelegates;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieActionDelegates{
     @BindView(R.id.rv_movie)
     RecyclerView rvMovie;
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this,this);
         setSupportActionBar(toolbar);
 
-        MoviesAdapter moviesAdapter = new MoviesAdapter();
+        MoviesAdapter moviesAdapter = new MoviesAdapter(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),
                 LinearLayoutManager.VERTICAL,false);
@@ -74,5 +75,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTapMovieItem() {
+        Intent intent = new Intent(getApplicationContext(),MovieDetailsActivity.class);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onTapMovieImage() {
+
+    }
+
+    @Override
+    public void onTapMovieOverView() {
+
     }
 }

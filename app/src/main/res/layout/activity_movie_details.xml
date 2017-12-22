@@ -15,17 +15,18 @@
             android:layout_width="match_parent"
             android:layout_height="320dp"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/img_dummy_movie_details_bg"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_dummy_movie_details_bg" />
 
                 <FrameLayout
                     android:id="@+id/fl_img"
@@ -55,13 +56,13 @@
                     android:id="@+id/tv_rating_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
                     android:background="@drawable/ic_favorite_black_48dp"
                     android:backgroundTint="@color/accent"
                     android:fontFamily="cursive"
                     android:gravity="center"
                     android:text="7.4"
-                    android:layout_marginTop="28dp"
-                    android:textColor="@color/icons"
+                    android:textColor="@color/white_full"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -76,33 +77,26 @@
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                <android.support.v4.widget.NestedScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/fl_img"
                     android:layout_alignLeft="@id/tv_movie_details_title"
                     android:layout_below="@id/tv_movie_details_title"
                     android:layout_marginRight="16dp"
                     android:fillViewport="true">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_movie_description"
+                        style="@style/white_text_black_background"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:lineSpacingMultiplier="1"
+                        android:padding="4dp"
+                        android:text="@string/movie_first_details"
+                        android:textSize="12sp" />
 
-                        <TextView
-                            style="@style/white_text_black_background"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:lineSpacingMultiplier="1"
-                            android:padding="4dp"
-                            android:text="@string/movie_first_details"
-                            android:textSize="12sp"
-                            android:focusableInTouchMode="true"/>
-                    </LinearLayout>
-
-
-                </ScrollView>
+                </android.support.v4.widget.NestedScrollView>
 
 
                 <RatingBar
@@ -131,15 +125,9 @@
                     android:layout_marginBottom="2dp"
                     android:layout_marginLeft="4dp"
                     android:text="In Production : January 2018"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
             </RelativeLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"/>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -155,12 +143,12 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/accent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/accent">
 
             <TextView
                 android:id="@+id/tv_title_text"
@@ -173,42 +161,21 @@
                 android:textColor="@color/accent"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <HorizontalScrollView
-                android:id="@+id/hsv_movie_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_title_text"
-                android:background="@color/accent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@drawable/horizontal_divider"
-                    android:dividerPadding="12dp"
-                    android:orientation="horizontal"
-                    android:showDividers="middle">
-
-                    <TextView
-                        style="@style/movie_type_style"
-                        android:layout_width="wrap_content"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_movie_types"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Action" />
+                        android:layout_below="@id/tv_title_text"
+                        android:background="@color/accent"
+                        android:scrollbars="horizontal"
 
-                    <TextView
-                        style="@style/movie_type_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Science Fiction" />
-                </LinearLayout>
-
-            </HorizontalScrollView>
+                        />
 
             <TextView
                 android:id="@+id/tv_movie_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/hsv_movie_type"
+                android:layout_below="@id/rv_movie_types"
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/rounded_accent_border"
                 android:padding="8dp"
@@ -221,7 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_movie_time"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="8dp" />
 
             <TextView
                 android:id="@+id/tv_review_title"

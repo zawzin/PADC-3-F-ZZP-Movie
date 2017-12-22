@@ -5,17 +5,17 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import xyz.zzp.ass_movie.R;
+import xyz.zzp.ass_movie.activities.activities.adapters.MovieTypesAdaper;
 import xyz.zzp.ass_movie.activities.activities.adapters.TrailersAdapter;
 
 /**
@@ -26,8 +26,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     @BindView(R.id.rv_movie_trailer)
     RecyclerView rvMovieTrailer;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.rv_movie_types)
+    RecyclerView rvMovieTypes;
 
     public static Intent newIntent(Context context)
     {
@@ -36,13 +36,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_details);
+        setContentView(R.layout.activity_movie_details);
         ButterKnife.bind(this,this);
 
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-//        actionBar.setDisplayShowTitleEnabled(false);
+        MovieTypesAdaper movieTypesAdaper = new MovieTypesAdaper();
+        LinearLayoutManager linearLayoutManagerMovieTypes = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
+        rvMovieTypes.setLayoutManager(linearLayoutManagerMovieTypes);
+        rvMovieTypes.setAdapter(movieTypesAdaper);
 
         TrailersAdapter trailersAdapter = new TrailersAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
