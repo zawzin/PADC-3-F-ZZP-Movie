@@ -10,17 +10,25 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.zzp.ass_movie.R;
+import xyz.zzp.ass_movie.activities.activities.MovieApp;
 import xyz.zzp.ass_movie.activities.activities.adapters.MoviesAdapter;
+import xyz.zzp.ass_movie.activities.activities.data.models.MoviesModel;
 import xyz.zzp.ass_movie.activities.activities.delegates.MovieActionDelegates;
+import xyz.zzp.ass_movie.activities.activities.events.LoadedMovieEvent;
 
 public class MainActivity extends AppCompatActivity implements MovieActionDelegates{
     @BindView(R.id.rv_movie)
@@ -28,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements MovieActionDelega
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    private MoviesAdapter mMoviesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +47,13 @@ public class MainActivity extends AppCompatActivity implements MovieActionDelega
         ButterKnife.bind(this,this);
         setSupportActionBar(toolbar);
 
-        MoviesAdapter moviesAdapter = new MoviesAdapter(this);
+        mMoviesAdapter = new MoviesAdapter(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),
                 LinearLayoutManager.VERTICAL,false);
 
         rvMovie.setLayoutManager(linearLayoutManager);
-        rvMovie.setAdapter(moviesAdapter);
+        rvMovie.setAdapter(mMoviesAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +63,20 @@ public class MainActivity extends AppCompatActivity implements MovieActionDelega
                         .setAction("Action", null).show();
             }
         });
+
+        MoviesModel.getObjectInstance().loadMovies();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -92,5 +116,10 @@ public class MainActivity extends AppCompatActivity implements MovieActionDelega
     @Override
     public void onTapMovieOverView() {
 
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMovieLoaded(LoadedMovieEvent loadedMovieEvent){
+        Log.d(MovieApp.LOG_TAG,"LoadedMovieEvent=" +loadedMovieEvent.getMoviesList().size());
+        mMoviesAdapter.setMovies(loadedMovieEvent.getMoviesList());
     }
 }

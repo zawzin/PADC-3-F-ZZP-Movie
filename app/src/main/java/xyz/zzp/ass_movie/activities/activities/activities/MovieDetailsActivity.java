@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import xyz.zzp.ass_movie.R;
+import xyz.zzp.ass_movie.activities.activities.adapters.MovieReviewsAdapter;
 import xyz.zzp.ass_movie.activities.activities.adapters.MovieTypesAdaper;
 import xyz.zzp.ass_movie.activities.activities.adapters.TrailersAdapter;
 
@@ -29,6 +30,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     @BindView(R.id.rv_movie_types)
     RecyclerView rvMovieTypes;
 
+    @BindView(R.id.rv_movie_reviews)
+    RecyclerView rvMovieReviews;
     public static Intent newIntent(Context context)
     {
         Intent intent = new Intent(context,MovieDetailsActivity.class);
@@ -45,9 +48,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
         rvMovieTypes.setAdapter(movieTypesAdaper);
 
         TrailersAdapter trailersAdapter = new TrailersAdapter();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
-        rvMovieTrailer.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManagerTrailers = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
+        rvMovieTrailer.setLayoutManager(linearLayoutManagerTrailers);
         rvMovieTrailer.setAdapter(trailersAdapter);
+
+        MovieReviewsAdapter movieReviewsAdapter = new MovieReviewsAdapter();
+        LinearLayoutManager linearLayoutManagerReview = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        rvMovieReviews.setLayoutManager(linearLayoutManagerReview);
+        rvMovieReviews.setAdapter(movieReviewsAdapter);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow();
