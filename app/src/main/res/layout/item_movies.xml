@@ -6,6 +6,7 @@
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
     android:foreground="@drawable/ripple_white"
     app:cardElevation="8dp">
 
@@ -21,9 +22,9 @@
 
             <ImageView
                 android:id="@+id/iv_movie_cover"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="fitCenter"
+                android:layout_width="150dp"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/img_dummy_movie" />
 
             <FrameLayout
@@ -68,8 +69,9 @@
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@id/fl_img"
             android:text="Pacifc Rim"
-            android:textColor="@color/primary_text"
-            android:textSize="16sp" />
+            android:textColor="@color/black_full"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tv_movie_type"

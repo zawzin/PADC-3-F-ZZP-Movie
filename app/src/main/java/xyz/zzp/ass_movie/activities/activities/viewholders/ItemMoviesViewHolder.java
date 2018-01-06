@@ -45,7 +45,7 @@ public class ItemMoviesViewHolder extends RecyclerView.ViewHolder {
     public void setMovie(PopularMoviesVO movies){
         movieTitle.setText(movies.getTitle());
         Glide.with(movieCover.getContext())
-                .load(movies.getPosterPath())
+                .load("http://image.tmdb.org/t/p/original"+movies.getPosterPath())
                 .into(movieCover);
     }
 }
